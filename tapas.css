@@ -1,0 +1,71 @@
+
+#sizer {
+    margin: 0;
+    padding: 0;
+    color: transparent;
+    background-color: transparent;
+    position: absolute;
+}
+
+body {
+    background: #F0F4F8;
+    min-height: 100%;
+    font-family: "Helvetica Neue",helvetica,arial,sans-serif;
+    line-height: 1.4;
+}
+
+.box {
+    width: 33%;
+    float: right;
+}
+
+.box h1 {
+    font-size: 200%;
+    padding: 1em;
+    text-align: center;
+}
+
+.box li {
+    text-align: center;
+    padding-top: 1em;
+    padding-bottom: 1em;
+    margin-left: 1em;
+    margin-right: 1em;
+    height: 3em;
+    margin-bottom: 1em;
+    overflow: hidden;
+    background: #DCE7F1;
+    border-radius: .5em;
+    box-shadow: 2px 2px 3px 0 rgba(0, 0, 0, 0.5);
+}
+
+.box a {
+    color: #BC4378;
+    text-decoration: none;
+}
+
+.modicon {
+    height: 3em;
+    padding-left: .25em;
+    float: left;
+}
+
+.spaceicon {
+    height: 3em;
+    padding-right: .25em;
+    float: right;
+}
+
+.box a:hover {
+    text-decoration: underline;
+}
+
+.box abbr.timeago {
+    display: block;
+    font-style: italic;
+    font-size: 75%;
+}
+
+.box li:hover {
+    box-shadow: 2px 2px 3px 0 rgba(0, 0, 0, 0.5) inset;
+}

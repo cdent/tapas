@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>tapas</title>
+    <link rel="stylesheet" type="text/css"
+    href="http://tiddlyspace.com/bags/common/tiddlers/reset.css">
+    <link rel="stylesheet" type="text/css" href="tapas.css">
+</head>
+<body>
+    <div id="message"></div>
+    <div class="box">
+        <h1 title="tagged for you">@box</h1>
+        <ul id="atbox" class="tiddlers"></ul>
+    </div>
+    <div class="box">
+        <h1 title="from your friends">☺box</h1>
+        <ul id="fbox" class="tiddlers"></ul>
+    </div>
+    <div class="box">
+        <h1 title="from everybody">⇪box</h1>
+        <ul id="upbox" class="tiddlers"></ul>
+    </div>
+    <div id="sizer">M</div>
+</body>
+<script src="http://tiddlyspace.com/bags/common/tiddlers/jquery.js"></script>
+<script src="jquery.timeago.js"></script>
+<script src="http://tiddlyspace.com:8081/socket.io/socket.io.js"></script>
+<script src="tapas.js"></script>
+</html>
+
