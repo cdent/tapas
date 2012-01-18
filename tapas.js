@@ -38,7 +38,6 @@ var friendSearchSubs = function(friends, searchUrl) {
     $.each(friends, function(index, friend) {
         subs.push('modifier/' + friend);
     });
-    console.log(searchUrl, subs);
     var fbox = new Tiddlers($('#fbox'),
         searchUrl,
         subs);
