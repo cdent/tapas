@@ -1,3 +1,13 @@
+$(function() {
+
+var windowActive = true;
+
+$(window).focus(function() {
+    $('title').text('tapas');
+    windowActive = true;
+});
+$(window).blur(function() { windowActive = false; });
+
 $.ajaxSetup({
     beforeSend: function(xhr) {
                     xhr.setRequestHeader("X-ControlView", "false");
@@ -94,6 +104,13 @@ $.extend(Tiddlers.prototype, {
         var tiddler = this.queue.shift();
         var href = tiddler.uri;
         var tiddlerDate = dateString(tiddler.modified);
+
+        if (!windowActive) {
+            var count = parseInt($('title').text().replace(/tapas\s*/, '')
+                || "0", 10);
+            count++;
+            $('title').text('tapas ' + count);
+        }
 
         var link = $('<a>').attr({'href': href,
             target: '_blank'}).text(tiddler.title);
@@ -196,3 +213,4 @@ $.ajax({
         $('#message').text('Unable to determine username');
     },
 });
+})
