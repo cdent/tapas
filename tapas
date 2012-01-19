@@ -10,15 +10,15 @@
 <body>
     <div id="message"></div>
     <div class="box">
-        <h1 title="tagged for you">@box</h1>
+        <h1 title="tagged for you">@</h1>
         <ul id="atbox" class="tiddlers"></ul>
     </div>
     <div class="box">
-        <h1 title="from your friends">&#x263A;box</h1>
+        <h1 title="from your friends">&#x263A;</h1>
         <ul id="fbox" class="tiddlers"></ul>
     </div>
     <div class="box">
-        <h1 title="from everybody">&#x221E;box</h1>
+        <h1 title="from everybody">&#x221E;</h1>
         <ul id="upbox" class="tiddlers"></ul>
     </div>
     <div id="sizer">M</div>
