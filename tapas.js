@@ -87,9 +87,18 @@ var Tiddlers = function(el, sourceuri, updater) {
     this.el = el;
     this.source = sourceuri + ';sort=modified';
     this.updater = updater;
+    var self = this;
     if (typeof(io) !== 'undefined') {
         this.socket = io.connect('http://tiddlyspace.com:8081',
                 {'force new connection': true});
+        this.socket.on('connect', function() {
+            $.each(self.updater, function(index, sub) {
+                self.socket.emit('subscribe', sub);
+            });
+            self.socket.on('tiddler', function(data) {
+                self.getTiddler(data);
+            });
+        });
     }
 };
 
@@ -171,14 +180,6 @@ $.extend(Tiddlers.prototype, {
                 });
             }
         });
-        if (this.socket) {
-            $.each(this.updater, function(index, sub) {
-                self.socket.emit('subscribe', sub);
-            });
-            this.socket.on('tiddler', function(data) {
-                self.getTiddler(data);
-            });
-        }
     },
 
 });
