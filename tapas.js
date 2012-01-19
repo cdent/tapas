@@ -14,7 +14,7 @@ var calculateSize = function() {
 var getFriends = function(user) {
     $.ajax({
         dataType: 'json',
-        url: 'http://tiddlyspace.com/search?q=bag:' + user + '_public' +
+        url: '/search?q=bag:' + user + '_public' +
          '%20tag:follow%20_limit:100',
         success: function(tiddlers) {
             var friends = [];
@@ -29,7 +29,7 @@ var getFriends = function(user) {
 
 var friendSearchUrl = function(friends) {
     var search = friends.join('%20OR%20modifier:');
-    var url = 'http://tiddlyspace.com/search?q=modifier:' + search;
+    var url = '/search?q=modifier:' + search;
     friendSearchSubs(friends, url);
 }
 
@@ -136,7 +136,7 @@ $.extend(Tiddlers.prototype, {
         var self = this;
         $.ajax({
             dataType: 'json',
-            url: 'http://tiddlyspace.com' + uri,
+            url: uri,
             success: function(tiddler) {
                 self.push(tiddler);
             }
@@ -174,10 +174,10 @@ var init = function(status) {
     } 
     var username = status.username;
     var atbox = new Tiddlers($('#atbox'),
-            'http://tiddlyspace.com/search?q=tag:@' + username,
+            '/search?q=tag:@' + username,
             ['tags/@' + username]);
     var upbox = new Tiddlers($('#upbox'),
-            'http://tiddlyspace.com/search?q=',
+            '/search?q=',
             ['*']);
     atbox.init();
     upbox.init();
@@ -187,7 +187,7 @@ var init = function(status) {
 
 //init
 $.ajax({
-    url: "http://tiddlyspace.com/status",
+    url: "/status",
     dataType: "json",
     success: function(data) {
         init(data); 

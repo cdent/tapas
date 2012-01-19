@@ -4,7 +4,8 @@
     <title>tapas</title>
     <link rel="stylesheet" type="text/css"
     href="http://tiddlyspace.com/bags/common/tiddlers/reset.css">
-    <link rel="stylesheet" type="text/css" href="tapas.css">
+    <link rel="stylesheet" type="text/css"
+    href="http://tiddlyspace.com/bags/tapas_extra/tiddlers/tapas.css">
 </head>
 <body>
     <div id="message"></div>
@@ -13,18 +14,18 @@
         <ul id="atbox" class="tiddlers"></ul>
     </div>
     <div class="box">
-        <h1 title="from your friends">☺box</h1>
+        <h1 title="from your friends">&#x263A;box</h1>
         <ul id="fbox" class="tiddlers"></ul>
     </div>
     <div class="box">
-        <h1 title="from everybody">⇪box</h1>
+        <h1 title="from everybody">&#x221E;box</h1>
         <ul id="upbox" class="tiddlers"></ul>
     </div>
     <div id="sizer">M</div>
 </body>
 <script src="http://tiddlyspace.com/bags/common/tiddlers/jquery.js"></script>
-<script src="jquery.timeago.js"></script>
+<script src="http://tiddlyspace.com/bags/tapas_extra/tiddlers/jquery.timeago.js"></script>
 <script src="http://tiddlyspace.com:8081/socket.io/socket.io.js"></script>
-<script src="tapas.js"></script>
+<script src="http://tiddlyspace.com/bags/tapas_extra/tiddlers/tapas.js"></script>
 </html>
 
