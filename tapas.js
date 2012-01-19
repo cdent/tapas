@@ -87,12 +87,14 @@ var Tiddlers = function(el, sourceuri, updater) {
     this.el = el;
     this.source = sourceuri + ';sort=modified';
     this.updater = updater;
-    var self = this;
     if (typeof(io) !== 'undefined') {
         this.socket = io.connect('http://tiddlyspace.com:8081',
                 {'force new connection': true});
+        var self = this;
         this.socket.on('connect', function() {
+            console.log('re-connect for', self.updater);
             $.each(self.updater, function(index, sub) {
+                self.socket.emit('unsubscribe', sub);
                 self.socket.emit('subscribe', sub);
             });
             self.socket.on('tiddler', function(data) {
@@ -130,14 +132,14 @@ $.extend(Tiddlers.prototype, {
         abbr.timeago();
 
         var modurl = urlFromUser(tiddler.modifier);
-        var modlink = $('<a>').attr({'href': modurl});
+        var modlink = $('<a>').attr({'href': modurl, target: '_blank'});
         var modIcon = $('<img>').attr({'class': 'modicon',
             src: modurl + '/SiteIcon',
             alt: tiddler.modifier});
         modlink.append(modIcon);
 
         var spaceurl = urlFromBag(tiddler.bag);
-        var spacelink = $('<a>').attr({'href': spaceurl});
+        var spacelink = $('<a>').attr({'href': spaceurl, target: '_blank'});
         var spaceIcon = $('<img>').attr({'class': 'spaceicon',
             src: spaceurl + '/SiteIcon',
             alt: tiddler.bag});
@@ -149,7 +151,6 @@ $.extend(Tiddlers.prototype, {
             .prepend(spacelink)
             .prepend(modlink);
 
-        //li.click(function() {window.location.href = href});
         this.el.prepend(li);
         var children = this.el.children();
         while (children.length > calculateSize()) {
@@ -191,15 +192,17 @@ var init = function(status) {
             .text('Unable to access socket server, functionality limited');
     } 
     var username = status.username;
-    var atbox = new Tiddlers($('#atbox'),
-            '/search?q=tag:@' + username,
-            ['tags/@' + username]);
     var upbox = new Tiddlers($('#upbox'),
             '/search?q=',
             ['*']);
-    atbox.init();
     upbox.init();
-    fboxSetup(username);
+    if (username !== 'GUEST') {
+        var atbox = new Tiddlers($('#atbox'),
+                '/search?q=tag:@' + username,
+                ['tags/@' + username]);
+        atbox.init();
+        fboxSetup(username);
+    }
 };
 
 
