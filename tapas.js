@@ -1,12 +1,20 @@
 $(function() {
-
     var windowActive = true;
+    var socketuri = 'http://tiddlyspace.com:8081';
 
     $(window).focus(function() {
         $('title').text('tapas');
         windowActive = true;
     });
     $(window).blur(function() { windowActive = false; });
+    $(document).bind('tiddlersUpdate', function() {
+        if (!windowActive) {
+            var count = parseInt($('title').text().replace(/\s*tapas$/, '')
+                || "0", 10);
+            $('title').text(++count + ' tapas');
+        }
+    });
+
 
     $.ajaxSetup({
         beforeSend: function(xhr) {
@@ -36,7 +44,6 @@ $(function() {
         });
     };
 
-
     var friendSearchUrl = function(friends) {
         var search = friends.join('%20OR%20modifier:');
         var url = '/search?q=modifier:' + search;
@@ -49,141 +56,16 @@ $(function() {
             subs.push('modifier/' + friend);
         });
         var fbox = new Tiddlers($('#fbox'),
+            socketuri,
             searchUrl,
-            subs);
+            subs,
+            {sizer: calculateSize});
         fbox.init();
     };
 
     var fboxSetup = function(user) {
         getFriends(user);
     };
-
-    var dateString = function(date) {
-        return new Date(Date.UTC(
-            parseInt(date.substr(0, 4), 10),
-            parseInt(date.substr(4, 2), 10) - 1,
-            parseInt(date.substr(6, 2), 10),
-            parseInt(date.substr(8, 2), 10),
-            parseInt(date.substr(10, 2), 10),
-            parseInt(date.substr(12, 2) || "0", 10),
-            parseInt(date.substr(14, 3) || "0", 10)
-            )).toISOString();
-    };
-
-    var urlFromUser = function(username) {
-        return 'http://' + username + '.tiddlyspace.com';
-    };
-
-    var urlFromBag = function(bag) {
-        var index = bag.indexOf('_public');
-        var space = '';
-        if (index >= 0) {
-            space = bag.substr(0, index) + '.';
-        }
-        return 'http://' + space + 'tiddlyspace.com';
-    };
-
-    var Tiddlers = function(el, sourceuri, updater) {
-        this.el = el;
-        this.source = sourceuri + ';sort=modified';
-        this.updater = updater;
-        if (typeof(io) !== 'undefined') {
-            this.socket = io.connect('http://tiddlyspace.com:8081',
-                    {'force new connection': true});
-            var self = this;
-            this.socket.on('connect', function() {
-                console.log('re-connect for', self.updater);
-                $.each(self.updater, function(index, sub) {
-                    self.socket.emit('unsubscribe', sub);
-                    self.socket.emit('subscribe', sub);
-                });
-                self.socket.on('tiddler', function(data) {
-                    self.getTiddler(data);
-                });
-            });
-        }
-    };
-
-    $.extend(Tiddlers.prototype, {
-        queue: [],
-        push: function(tiddler) {
-            this.queue.push(tiddler);
-            this.updateUI();
-        },
-
-        updateUI: function() {
-            var tiddler = this.queue.shift(),
-                href = tiddler.uri,
-                tiddlerDate = dateString(tiddler.modified);
-
-            if (!windowActive) {
-                var count = parseInt($('title').text().replace(/\s*tapas$/, '')
-                    || "0", 10);
-                $('title').text(++count + ' tapas');
-            }
-
-            var link = $('<a>').attr({'href': href,
-                target: '_blank'}).text(tiddler.title);
-
-            var abbr = $('<abbr>').attr({'class': 'timeago',
-                title: tiddlerDate}).text(tiddlerDate);
-            // set timeago explicitly as it is not "live" ready
-            abbr.timeago();
-
-            var modurl = urlFromUser(tiddler.modifier);
-            var modlink = $('<a>').attr({'href': modurl, target: '_blank'});
-            var modIcon = $('<img>').attr({'class': 'modicon',
-                src: modurl + '/SiteIcon',
-                alt: tiddler.modifier});
-            modlink.append(modIcon);
-
-            var spaceurl = urlFromBag(tiddler.bag);
-            var spacelink = $('<a>').attr({'href': spaceurl,
-                target: '_blank'});
-            var spaceIcon = $('<img>').attr({'class': 'spaceicon',
-                src: spaceurl + '/SiteIcon',
-                alt: tiddler.bag});
-            spacelink.append(spaceIcon);
-
-            var li = $('<li>')
-                .append(link)
-                .append(abbr)
-                .prepend(spacelink)
-                .prepend(modlink);
-
-            this.el.prepend(li);
-            var children = this.el.children();
-            while (children.length > calculateSize()) {
-                children.last().remove();
-                children = this.el.children();
-            }
-        },
-
-        getTiddler: function(uri) {
-            var self = this;
-            $.ajax({
-                dataType: 'json',
-                url: uri,
-                success: function(tiddler) {
-                    self.push(tiddler);
-                }
-            });
-        },
-
-        init: function() {
-            var self = this;
-            $.ajax({
-                dataType: 'json',
-                url: this.source,
-                success: function(tiddlers) {
-                    $.each(tiddlers, function(index, tiddler) {
-                        self.push(tiddler);
-                    });
-                }
-            });
-        }
-
-    });
 
     // meat goes here
     var init = function(status) {
@@ -193,13 +75,17 @@ $(function() {
         } 
         var username = status.username;
         var upbox = new Tiddlers($('#upbox'),
+                socketuri,
                 '/search?q=',
-                ['*']);
+                ['*'],
+                {sizer: calculateSize});
         upbox.init();
         if (username !== 'GUEST') {
             var atbox = new Tiddlers($('#atbox'),
+                    socketuri,
                     '/search?q=tag:@' + username,
-                    ['tags/@' + username]);
+                    ['tags/@' + username],
+                    {sizer: calculateSize});
             atbox.init();
             fboxSetup(username);
         }
