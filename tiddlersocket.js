@@ -33,6 +33,10 @@ $(function() {
         this.updater = updater;
         if (options.sizer) {
             this.sizer = options.sizer;
+        } else {
+            this.sizer = function() {
+                return 6; // if no sizer, so show 5 things
+            }
         }
         if (typeof(io) !== 'undefined') {
             this.socket = io.connect(socketuri,
