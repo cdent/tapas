@@ -60,7 +60,7 @@ $(function() {
             searchUrl,
             subs,
             {sizer: calculateSize});
-        fbox.init();
+        fbox.start();
     };
 
     var fboxSetup = function(user) {
@@ -79,14 +79,14 @@ $(function() {
                 '/search?q=',
                 ['*'],
                 {sizer: calculateSize});
-        upbox.init();
+        upbox.start();
         if (username !== 'GUEST') {
             var atbox = new Tiddlers($('#atbox'),
                     socketuri,
                     '/search?q=tag:@' + username,
                     ['tags/@' + username],
                     {sizer: calculateSize});
-            atbox.init();
+            atbox.start();
             fboxSetup(username);
         }
     };

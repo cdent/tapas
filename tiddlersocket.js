@@ -1,49 +1,29 @@
-var Tiddlers = {}; // an "export"
+/*jslint vars: true */
+/*global jQuery, io */
+var Tiddlers = (function($) {
 
-$(function() {
-    var urlFromBag = function(bag) {
-        var index = bag.indexOf('_public');
-        var space = '';
-        if (index >= 0) {
-            space = bag.substr(0, index) + '.';
-        }
-        // XXX: hostname!
-        return 'http://' + space + 'tiddlyspace.com';
-    };
+    "use strict";
 
-    var urlFromUser = function(username) {
-        return 'http://' + username + '.tiddlyspace.com';
-    };
-
-    var dateString = function(date) {
-        return new Date(Date.UTC(
-            parseInt(date.substr(0, 4), 10),
-            parseInt(date.substr(4, 2), 10) - 1,
-            parseInt(date.substr(6, 2), 10),
-            parseInt(date.substr(8, 2), 10),
-            parseInt(date.substr(10, 2), 10),
-            parseInt(date.substr(12, 2) || "0", 10),
-            parseInt(date.substr(14, 3) || "0", 10)
-            )).toISOString();
-    };
-
-    Tiddlers = function(el, socketuri, sourceuri, updater, options) {
+    var Tiddlers = function(el, socketuri, sourceuri, updater, options) {
         this.el = el;
         this.source = sourceuri + ';sort=modified';
         this.updater = updater;
-        if (options.sizer) {
+        if (options.sizer.toExponential) {
+            this.sizer = function () {
+                return options.sizer;
+            };
+        } else if (options.sizer) {
             this.sizer = options.sizer;
         } else {
             this.sizer = function() {
                 return 6; // if no sizer, so show 5 things
-            }
+            };
         }
         if (typeof(io) !== 'undefined') {
             this.socket = io.connect(socketuri,
                     {'force new connection': true});
             var self = this;
             this.socket.on('connect', function() {
-                console.log('re-connect for', self.updater);
                 $.each(self.updater, function(index, sub) {
                     self.socket.emit('unsubscribe', sub);
                     self.socket.emit('subscribe', sub);
@@ -57,6 +37,20 @@ $(function() {
 
     $.extend(Tiddlers.prototype, {
         queue: [],
+
+        start: function() {
+            var self = this;
+            $.ajax({
+                dataType: 'json',
+                url: this.source,
+                success: function(tiddlers) {
+                    $.each(tiddlers, function(index, tiddler) {
+                        self.push(tiddler);
+                    });
+                }
+            });
+        },
+
         push: function(tiddler) {
             this.queue.push(tiddler);
             this.updateUI();
@@ -98,10 +92,8 @@ $(function() {
 
             this.el.trigger('tiddlersUpdate');
             this.el.prepend(li);
-            var children = this.el.children();
-            while (children.length > this.sizer()) {
-                children.last().remove();
-                children = this.el.children();
+            while (this.el.children().length > this.sizer()) {
+                this.el.children().last().remove();
             }
         },
 
@@ -114,20 +106,36 @@ $(function() {
                     self.push(tiddler);
                 }
             });
-        },
-
-        init: function() {
-            var self = this;
-            $.ajax({
-                dataType: 'json',
-                url: this.source,
-                success: function(tiddlers) {
-                    $.each(tiddlers, function(index, tiddler) {
-                        self.push(tiddler);
-                    });
-                }
-            });
         }
 
     });
-});
+
+    function urlFromBag(bag) {
+        var index = bag.indexOf('_public');
+        var space = '';
+        if (index >= 0) {
+            space = bag.substr(0, index) + '.';
+        }
+        // XXX: hostname!
+        return 'http://' + space + 'tiddlyspace.com';
+    }
+
+    function urlFromUser(username) {
+        return 'http://' + username + '.tiddlyspace.com';
+    }
+
+    function dateString(date) {
+        return new Date(Date.UTC(
+            parseInt(date.substr(0, 4), 10),
+            parseInt(date.substr(4, 2), 10) - 1,
+            parseInt(date.substr(6, 2), 10),
+            parseInt(date.substr(8, 2), 10),
+            parseInt(date.substr(10, 2), 10),
+            parseInt(date.substr(12, 2) || "0", 10),
+            parseInt(date.substr(14, 3) || "0", 10)
+            )).toISOString();
+    }
+
+    return Tiddlers;
+
+}(jQuery));
