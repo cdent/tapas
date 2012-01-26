@@ -68,3 +68,28 @@ body {
 .box li:hover {
     box-shadow: 2px 2px 3px 0 rgba(0, 0, 0, 0.5) inset;
 }
+
+/* hide things as screen gets more narrow */
+@media all and (max-width: 55em) {
+    .modicon {
+        display: none;
+    }
+}
+
+@media all and (max-width: 42em) {
+    .spaceicon {
+        display: none;
+    }
+}
+
+@media all and (max-width: 32em) {
+    body > div:nth-child(99n+2) {
+        display: none;
+    }
+}
+
+@media all and (max-width: 24em) {
+    body > div:nth-child(99n+3) {
+        display: none;
+    }
+}
