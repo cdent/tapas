@@ -3,7 +3,7 @@
 <head>
     <title>tapas</title>
     <link rel="stylesheet" type="text/css"
-    href="http://tiddlyspace.com/bags/common/tiddlers/reset.css">
+    href="/bags/common/tiddlers/reset.css">
     <link rel="stylesheet" type="text/css"
     href="http://tiddlyspace.com/bags/tapas_extra/tiddlers/tapas.css">
 </head>
@@ -23,10 +23,11 @@
     </div>
     <div id="sizer">M</div>
 </body>
-<script src="http://tiddlyspace.com/bags/common/tiddlers/jquery.js"></script>
+<script src="/bags/common/tiddlers/jquery.js"></script>
 <script src="http://tiddlyspace.com/bags/tapas_extra/tiddlers/jquery.timeago.js"></script>
 <script src="http://tiddlyspace.com:8081/socket.io/socket.io.js"></script>
 <script src="http://tiddlyspace.com/bags/tapas_extra/tiddlers/tiddlersocket.js"></script>
 <script src="http://tiddlyspace.com/bags/tapas_extra/tiddlers/tapas.js"></script>
+<script src="/bags/common/tiddlers/backstage.js"></script>
 </html>
 

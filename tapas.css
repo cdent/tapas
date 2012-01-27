@@ -83,13 +83,13 @@ body {
 }
 
 @media all and (max-width: 32em) {
-    body > div:nth-child(99n+2) {
+    body > div:nth-child(99n+4) {
         display: none;
     }
 }
 
 @media all and (max-width: 24em) {
-    body > div:nth-child(99n+3) {
+    body > div:nth-child(99n+5) {
         display: none;
     }
 }
