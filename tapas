@@ -22,6 +22,8 @@
         <ul id="upbox" class="tiddlers"></ul>
     </div>
     <div id="sizer">M</div>
+    <div id="more"><a href="http://cdent.tiddlyspace.com/tapas"
+            title="more info">?</a></div>
 </body>
 <script src="/bags/common/tiddlers/jquery.js"></script>
 <script src="http://tiddlyspace.com/bags/tapas_extra/tiddlers/jquery.timeago.js"></script>
