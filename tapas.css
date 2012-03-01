@@ -8,11 +8,10 @@
 }
 
 #more {
+    text-align: right;
     position: absolute;
-    width: 2em;
     top: 2em;
-    right: -1em;
-    padding: .25em 1em 1em 0;
+    right: 2em;
 }
 
 body {
