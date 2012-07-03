@@ -29,6 +29,7 @@
 <script src="http://tiddlyspace.com/bags/tapas_extra/tiddlers/jquery.timeago.js"></script>
 <script src="http://tiddlyspace.com:8081/socket.io/socket.io.js"></script>
 <script src="http://tiddlyspace.com/bags/tapas_extra/tiddlers/tiddlersocket.js"></script>
+<script src="/status.js"></script>
 <script src="http://tiddlyspace.com/bags/tapas_extra/tiddlers/tapas.js"></script>
 <script src="/bags/common/tiddlers/backstage.js"></script>
 </html>

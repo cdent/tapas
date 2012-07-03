@@ -92,16 +92,7 @@ $(function() {
     };
 
 
-    //init
-    $.ajax({
-        url: "/status",
-        dataType: "json",
-        success: function(data) {
-            init(data); 
-        },
-        error: function(xhr, status, error) {
-            $('#message').text('Unable to determine username');
-        }
-    });
+    // use the data from status.js
+    init(tiddlyweb.status);
 
 });
