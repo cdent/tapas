@@ -1,1 +1,39 @@
-tapas
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>tapas</title>
+    <link rel="stylesheet"
+        type="text/css"
+        href="/bags/common/tiddlers/reset.css">
+    <link rel="stylesheet"
+        type="text/css"
+        href="/bags/tapas_public/tiddlers/tapas.css">
+</head>
+<body>
+    <div id="message"></div>
+    <div class="box">
+        <h1 title="tagged for you">@</h1>
+        <ul id="atbox" class="tiddlers"></ul>
+    </div>
+    <div class="box">
+        <h1 title="from your friends">&#x263A;</h1>
+        <ul id="fbox" class="tiddlers"></ul>
+    </div>
+    <div class="box">
+        <h1 title="from everybody">&#x221E;</h1>
+        <ul id="upbox" class="tiddlers"></ul>
+    </div>
+    <div id="sizer">M</div>
+    <div id="more"><a href="http://cdent.tiddlyspace.com/tapas"
+            title="more info">?</a></div>
+</body>
+<script src="/bags/common/tiddlers/jquery.js"></script>
+<script src="/bags/tapas_public/tiddlers/jquery.timeago.js"></script>
+<script src="http://tiddlyspace.com:8081/socket.io/socket.io.js"></script>
+<script src="/bags/tapas_public/tiddlers/tiddlersocket.js"></script>
+<script src="/status.js"></script>
+<script src="/bags/tapas_public/tiddlers/tapas.js"></script>
+<script src="/bags/common/tiddlers/backstage.js"></script>
+</html>
+
