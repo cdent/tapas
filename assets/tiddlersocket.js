@@ -58,7 +58,7 @@ var Tiddlers = (function($) {
 
         updateUI: function() {
             var tiddler = this.queue.shift(),
-                href = tiddler.uri,
+                href = friendlyURI(tiddler.uri),
                 tiddlerDate = dateString(tiddler.modified);
 
             var link = $('<a>').attr({'href': href,
@@ -119,6 +119,14 @@ var Tiddlers = (function($) {
         // XXX: hostname!
         return 'http://' + space + 'tiddlyspace.com';
     }
+
+	function friendlyURI(uri) {
+		if (!uri.match(/\/\/tiddlyspace\.com/)) {
+			return uri.replace(/\/bags\/[^\/]+\/tiddlers/, '');
+		} else {
+			return uri;
+		}
+	}	
 
     function urlFromUser(username) {
         return 'http://' + username + '.tiddlyspace.com';
