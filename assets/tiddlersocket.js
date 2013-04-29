@@ -73,7 +73,8 @@ var Tiddlers = (function($) {
             var modlink = $('<a>').attr({'href': modurl, target: '_blank'});
             var modIcon = $('<img>').attr({'class': 'modicon',
                 src: modurl + '/SiteIcon',
-                alt: tiddler.modifier});
+                alt: tiddler.modifier,
+                title: "modifier: "+tiddler.modifier});
             modlink.append(modIcon);
 
             var spaceurl = urlFromBag(tiddler.bag);
@@ -81,7 +82,8 @@ var Tiddlers = (function($) {
                 target: '_blank'});
             var spaceIcon = $('<img>').attr({'class': 'spaceicon',
                 src: spaceurl + '/SiteIcon',
-                alt: tiddler.bag});
+                alt: tiddler.bag,
+                title: "from: "+tiddler.bag});
             spacelink.append(spaceIcon);
 
             var li = $('<li>')
