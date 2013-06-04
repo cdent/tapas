@@ -56,9 +56,8 @@ var Tiddlers = (function($) {
             this.updateUI();
         },
 
-        updateUI: function() {
-            var tiddler = this.queue.shift(),
-                href = friendlyURI(tiddler.uri),
+        generateItem: function(tiddler) {
+            var href = friendlyURI(tiddler.uri),
                 tiddlerDate = dateString(tiddler.modified);
 
             var link = $('<a>').attr({'href': href,
@@ -86,16 +85,44 @@ var Tiddlers = (function($) {
                 title: "from: "+tiddler.bag});
             spacelink.append(spaceIcon);
 
+            // jquery data() plays funny when the element is not part of the DOM
+            // so use attr()
             var li = $('<li>')
+                .attr("data-tiddler-uri", tiddler.uri)
                 .append(link)
                 .append(abbr)
                 .prepend(spacelink)
                 .prepend(modlink);
+            return li;
+        },
 
-            this.el.trigger('tiddlersUpdate');
-            this.el.prepend(li);
-            while (this.el.children().length > this.sizer()) {
-                this.el.children().last().remove();
+        updateUI: function() {
+            var tiddler = this.queue.shift();
+            var existing = this.el.find("[data-tiddler-uri='" + tiddler.uri + "']");
+
+            // if exists move to the top of stack
+            if(existing.length) {
+                var tiddlerDate = dateString(tiddler.modified),
+                    abbr = $('<abbr>')
+                            .attr({'class': 'timeago', title: tiddlerDate})
+                            .text(tiddlerDate);
+
+                $(existing[0])
+                    .prependTo(this.el)
+                    .find('abbr')
+                        .remove()
+                    .end()
+                    .append(abbr);
+
+                abbr.timeago();
+            } else {
+                var li = this.generateItem(tiddler);
+
+                this.el.trigger('tiddlersUpdate');
+                this.el.prepend(li);
+                while (this.el.children().length > this.sizer()) {
+                    this.el.children().last().remove();
+                }
             }
         },
 
