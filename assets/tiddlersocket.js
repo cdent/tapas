@@ -4,6 +4,8 @@ var Tiddlers = (function($) {
 
     "use strict";
 
+    var hostname = window.tiddlyweb.status.server_host.host;
+
     var Tiddlers = function(el, socketuri, sourceuri, updater, options) {
         this.el = el;
         this.source = sourceuri + ';sort=modified';
@@ -118,20 +120,19 @@ var Tiddlers = (function($) {
         if (index >= 0) {
             space = bag.substr(0, index) + '.';
         }
-        // XXX: hostname!
-        return 'http://' + space + 'tiddlyspace.com';
+        return 'http://' + space + hostname;
     }
 
-	function friendlyURI(uri) {
-		if (!uri.match(/\/\/tiddlyspace\.com/)) {
-			return uri.replace(/\/bags\/[^\/]+\/tiddlers/, '');
-		} else {
-			return uri;
-		}
-	}	
+    function friendlyURI(uri) {
+        if (!uri.match(new RegExp('\/\/' + hostname))) {
+            return uri.replace(/\/bags\/[^\/]+\/tiddlers/, '');
+        } else {
+            return uri;
+        }
+    }
 
     function urlFromUser(username) {
-        return 'http://' + username + '.tiddlyspace.com';
+        return 'http://' + username + '.' + hostname;
     }
 
     function dateString(date) {

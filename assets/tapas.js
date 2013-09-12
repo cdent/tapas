@@ -1,6 +1,7 @@
 $(function() {
+    var host = window.tiddlyweb.status.server_host.host;
     var windowActive = true;
-    var socketuri = 'http://tiddlyspace.com:8081';
+    var socketuri = 'http://' + host + ':8080';
 
     $(window).focus(function() {
         $('title').text('tapas');
